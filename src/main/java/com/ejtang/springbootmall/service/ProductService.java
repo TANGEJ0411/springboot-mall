@@ -9,4 +9,6 @@ public interface ProductService {
 	int createProduct(ProductRequest productRequest);
 	
 	void updateProduct(int productId, ProductRequest productRequest);
+	
+	void deleteProduct(int productId);
 }
