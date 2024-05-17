@@ -9,6 +9,8 @@ import com.ejtang.springbootmall.model.Product;
 public interface ProductService {
 
 	List<Product> getProducts(ProductQueryParams productQueryParams);
+	
+	int countProduct (ProductQueryParams productQueryParams);
 
 	Product getProductById(int productId);
 

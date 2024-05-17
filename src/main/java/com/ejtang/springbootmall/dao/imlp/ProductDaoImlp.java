@@ -25,33 +25,60 @@ public class ProductDaoImlp implements ProductDao {
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	@Override
-	public List<Product> getProducts(ProductQueryParams productQueryParams) {
-		String sqlString = "SELECT product_id, product_name, category, image_url, "
-				+ "price, stock, description, created_date, last_modified_date FROM product WHERE 1=1";
+	public int countProduct(ProductQueryParams productQueryParams) {
+		String sqlString = "SELECT count(*) FROM product WHERE 1=1";
 
 		Map<String, Object> map = new HashMap<>();
 
+		// filtering by category
 		if (productQueryParams.getCategory() != null) {
 			sqlString = sqlString + " AND category=:category";
 
 			map.put("category", productQueryParams.getCategory().name());
 		}
 
+		// filtering by search
 		if (productQueryParams.getSearch() != null) {
 			sqlString = sqlString + " AND product_name LIKE :search";
 
 			map.put("search", "%" + productQueryParams.getSearch() + "%");
 		}
-		
+
+		int total = namedParameterJdbcTemplate.queryForObject(sqlString, map, Integer.class);
+		return total;
+	}
+
+	@Override
+	public List<Product> getProducts(ProductQueryParams productQueryParams) {
+		String sqlString = "SELECT product_id, product_name, category, image_url, "
+				+ "price, stock, description, created_date, last_modified_date FROM product WHERE 1=1";
+
+		Map<String, Object> map = new HashMap<>();
+
+		// filtering by category
+		if (productQueryParams.getCategory() != null) {
+			sqlString = sqlString + " AND category=:category";
+
+			map.put("category", productQueryParams.getCategory().name());
+		}
+
+		// filtering by search
+		if (productQueryParams.getSearch() != null) {
+			sqlString = sqlString + " AND product_name LIKE :search";
+
+			map.put("search", "%" + productQueryParams.getSearch() + "%");
+		}
+
 		// orderBy 只可以用字串拼接出sql語法
 		sqlString = sqlString + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
 
-		sqlString =sqlString + " LIMIT :limit OFFSET :offset";
-		
+		// pagination
+		sqlString = sqlString + " LIMIT :limit OFFSET :offset";
+
 		map.put("limit", productQueryParams.getLimit());
-		
+
 		map.put("offset", productQueryParams.getOffset());
-		
+
 		List<Product> productList = namedParameterJdbcTemplate.query(sqlString, map, new ProductRowMapper());
 		return productList;
 	}

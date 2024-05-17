@@ -20,6 +20,7 @@ import com.ejtang.springbootmall.dto.ProductQueryParams;
 import com.ejtang.springbootmall.dto.ProductRequest;
 import com.ejtang.springbootmall.model.Product;
 import com.ejtang.springbootmall.service.ProductService;
+import com.ejtang.springbootmall.util.Page;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -33,37 +34,47 @@ public class ProductController {
 	private ProductService productService;
 
 	@GetMapping("/products")
-	public ResponseEntity<List<Product>> getProducts(
-			//查詢條件 filtering
-			@RequestParam(required = false) ProductCategory category,
-			@RequestParam(required = false) String search, 
-			
-			//排序 sorting
+	public ResponseEntity<Page<Product>> getProducts(
+			// 查詢條件 filtering
+			@RequestParam(required = false) ProductCategory category, @RequestParam(required = false) String search,
+
+			// 排序 sorting
 			@RequestParam(defaultValue = "created_date") String orderBy,
 			@RequestParam(defaultValue = "desc") String sort,
-			
-			//分頁 pagination
+
+			// 分頁 pagination
 			@RequestParam(defaultValue = "3") @Max(1000) @Min(0) int limit, // 要取得多少筆數據
 			@RequestParam(defaultValue = "0") @Min(0) int offset // 要跳過多少筆數據
-			) {
+	) {
 
 		ProductQueryParams productQueryParams = new ProductQueryParams();
 
 		productQueryParams.setCategory(category);
 
 		productQueryParams.setSearch(search);
-		
+
 		productQueryParams.setOrderBy(orderBy);
-		
+
 		productQueryParams.setSort(sort);
-		
+
 		productQueryParams.setLimit(limit);
-		
+
 		productQueryParams.setOffset(offset);
 
+		// 取得productList
 		List<Product> productList = productService.getProducts(productQueryParams);
+		
+		// 取得product的總筆數
+		int total = productService.countProduct(productQueryParams);
 
-		return ResponseEntity.status(HttpStatus.OK).body(productList);
+		// 分頁的responseBody的值
+		Page<Product> page = new Page<>();
+		page.setLimit(limit);
+		page.setOffset(offset);
+		page.setTotal(total);
+		page.setResults(productList);
+
+		return ResponseEntity.status(HttpStatus.OK).body(page);
 	}
 
 	@GetMapping("products/{productId}")
