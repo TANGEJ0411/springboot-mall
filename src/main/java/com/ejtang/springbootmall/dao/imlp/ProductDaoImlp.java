@@ -46,6 +46,12 @@ public class ProductDaoImlp implements ProductDao {
 		// orderBy 只可以用字串拼接出sql語法
 		sqlString = sqlString + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
 
+		sqlString =sqlString + " LIMIT :limit OFFSET :offset";
+		
+		map.put("limit", productQueryParams.getLimit());
+		
+		map.put("offset", productQueryParams.getOffset());
+		
 		List<Product> productList = namedParameterJdbcTemplate.query(sqlString, map, new ProductRowMapper());
 		return productList;
 	}
