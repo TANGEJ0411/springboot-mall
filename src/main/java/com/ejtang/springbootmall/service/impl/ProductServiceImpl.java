@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ejtang.springbootmall.constant.ProductCategory;
 import com.ejtang.springbootmall.dao.ProductDao;
+import com.ejtang.springbootmall.dto.ProductQueryParams;
 import com.ejtang.springbootmall.dto.ProductRequest;
 import com.ejtang.springbootmall.model.Product;
 import com.ejtang.springbootmall.service.ProductService;
@@ -18,9 +18,9 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDao productDao;
 
 	@Override
-	public List<Product> getProducts(ProductCategory category, String search) {
+	public List<Product> getProducts(ProductQueryParams productQueryParams) {
 
-		return productDao.getProducts(category, search);
+		return productDao.getProducts(productQueryParams);
 	}
 
 	@Override

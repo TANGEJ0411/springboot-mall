@@ -3,13 +3,13 @@ package com.ejtang.springbootmall.dao;
 
 import java.util.List;
 
-import com.ejtang.springbootmall.constant.ProductCategory;
 import com.ejtang.springbootmall.dao.ProductDao;
+import com.ejtang.springbootmall.dto.ProductQueryParams;
 import com.ejtang.springbootmall.dto.ProductRequest;
 import com.ejtang.springbootmall.model.Product;
 
 public interface ProductDao {
-	List<Product> getProducts(ProductCategory category, String search);
+	List<Product> getProducts(ProductQueryParams productQueryParams);
 
 	Product getProductById(int productId);
 
