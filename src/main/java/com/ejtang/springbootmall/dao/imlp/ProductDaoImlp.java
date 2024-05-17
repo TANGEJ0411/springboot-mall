@@ -30,19 +30,7 @@ public class ProductDaoImlp implements ProductDao {
 
 		Map<String, Object> map = new HashMap<>();
 
-		// filtering by category
-		if (productQueryParams.getCategory() != null) {
-			sqlString = sqlString + " AND category=:category";
-
-			map.put("category", productQueryParams.getCategory().name());
-		}
-
-		// filtering by search
-		if (productQueryParams.getSearch() != null) {
-			sqlString = sqlString + " AND product_name LIKE :search";
-
-			map.put("search", "%" + productQueryParams.getSearch() + "%");
-		}
+		sqlString = this.addFilteringSqlString(sqlString, map, productQueryParams);
 
 		int total = namedParameterJdbcTemplate.queryForObject(sqlString, map, Integer.class);
 		return total;
@@ -55,19 +43,7 @@ public class ProductDaoImlp implements ProductDao {
 
 		Map<String, Object> map = new HashMap<>();
 
-		// filtering by category
-		if (productQueryParams.getCategory() != null) {
-			sqlString = sqlString + " AND category=:category";
-
-			map.put("category", productQueryParams.getCategory().name());
-		}
-
-		// filtering by search
-		if (productQueryParams.getSearch() != null) {
-			sqlString = sqlString + " AND product_name LIKE :search";
-
-			map.put("search", "%" + productQueryParams.getSearch() + "%");
-		}
+		sqlString = this.addFilteringSqlString(sqlString, map, productQueryParams);
 
 		// orderBy 只可以用字串拼接出sql語法
 		sqlString = sqlString + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
@@ -164,6 +140,24 @@ public class ProductDaoImlp implements ProductDao {
 
 		namedParameterJdbcTemplate.update(sqString, map);
 
+	}
+
+	private String addFilteringSqlString(String sqlString, Map<String, Object> map,
+			ProductQueryParams productQueryParams) {
+		// filtering by category
+		if (productQueryParams.getCategory() != null) {
+			sqlString = sqlString + " AND category=:category";
+
+			map.put("category", productQueryParams.getCategory().name());
+		}
+
+		// filtering by search
+		if (productQueryParams.getSearch() != null) {
+			sqlString = sqlString + " AND product_name LIKE :search";
+
+			map.put("search", "%" + productQueryParams.getSearch() + "%");
+		}
+		return sqlString;
 	}
 
 }
