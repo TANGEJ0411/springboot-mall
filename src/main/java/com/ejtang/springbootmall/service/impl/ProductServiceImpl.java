@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ejtang.springbootmall.dao.ProductDao;
+import com.ejtang.springbootmall.dto.ProductRequest;
 import com.ejtang.springbootmall.model.Product;
 import com.ejtang.springbootmall.service.ProductService;
 
@@ -17,5 +18,10 @@ public class ProductServiceImpl implements ProductService {
 	public Product getProductById(int productId) {
 
 		return productDao.getProductById(productId);
+	}
+	
+	@Override
+	public int createProduct(ProductRequest productRequest) {
+		return productDao.createProduct(productRequest);
 	}
 }

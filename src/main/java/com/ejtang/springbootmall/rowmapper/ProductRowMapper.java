@@ -1,6 +1,5 @@
 package com.ejtang.springbootmall.rowmapper;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -19,10 +18,10 @@ public class ProductRowMapper implements RowMapper<Product> {
 		product.setCategory(ProductCategory.valueOf(rs.getString("category")));
 		product.setImageUrl(rs.getString("image_url"));
 		product.setPrice(rs.getInt("price"));
-		product.setStock(rs.getInt("price"));
+		product.setStock(rs.getInt("stock"));
 		product.setDescription(rs.getString("description"));
-		product.setCreatedDate(new Date(rs.getTimestamp("created_date").getTime()));
-		product.setLastModifiedDate(new Date(rs.getTimestamp("last_modified_date").getTime()));
+		product.setCreatedDate(rs.getDate("created_date"));
+		product.setLastModifiedDate(rs.getDate("last_modified_date"));
 		
 		return product;
 	}
