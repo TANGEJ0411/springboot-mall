@@ -1,11 +1,15 @@
 
 package com.ejtang.springbootmall.dao;
 
+import java.util.List;
+
 import com.ejtang.springbootmall.dao.ProductDao;
 import com.ejtang.springbootmall.dto.ProductRequest;
 import com.ejtang.springbootmall.model.Product;
 
 public interface ProductDao {
+	List<Product> getProducts();
+	
 	Product getProductById(int productId);
 	
 	int createProduct(ProductRequest productRequest);

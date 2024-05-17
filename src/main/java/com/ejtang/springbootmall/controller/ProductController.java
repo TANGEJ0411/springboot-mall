@@ -1,5 +1,7 @@
 package com.ejtang.springbootmall.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,11 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+
+	@GetMapping("/products")
+	public List<Product> getProducts() {
+		return productService.getProducts();
+	}
 
 	@GetMapping("products/{productId}")
 	public ResponseEntity<Product> getProduct(@PathVariable int productId) {

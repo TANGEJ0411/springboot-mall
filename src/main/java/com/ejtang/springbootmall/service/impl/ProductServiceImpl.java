@@ -1,5 +1,7 @@
 package com.ejtang.springbootmall.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,11 +17,17 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDao productDao;
 
 	@Override
+	public List<Product> getProducts() {
+
+		return productDao.getProducts();
+	}
+
+	@Override
 	public Product getProductById(int productId) {
 
 		return productDao.getProductById(productId);
 	}
-	
+
 	@Override
 	public int createProduct(ProductRequest productRequest) {
 		return productDao.createProduct(productRequest);
@@ -27,14 +35,14 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void updateProduct(int productId, ProductRequest productRequest) {
-		productDao.updateProduct(productId,productRequest);
-		
+		productDao.updateProduct(productId, productRequest);
+
 	}
 
 	@Override
 	public void deleteProduct(int productId) {
 		productDao.deleteProduct(productId);
-		
+
 	}
-	
+
 }
