@@ -2,12 +2,13 @@ package com.ejtang.springbootmall.service;
 
 import java.util.List;
 
+import com.ejtang.springbootmall.constant.ProductCategory;
 import com.ejtang.springbootmall.dto.ProductRequest;
 import com.ejtang.springbootmall.model.Product;
 
 public interface ProductService {
 
-	List<Product> getProducts();
+	List<Product> getProducts(ProductCategory category, String search);
 
 	Product getProductById(int productId);
 
