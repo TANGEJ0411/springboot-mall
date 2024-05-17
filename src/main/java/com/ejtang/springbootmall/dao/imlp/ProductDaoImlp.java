@@ -36,12 +36,15 @@ public class ProductDaoImlp implements ProductDao {
 
 			map.put("category", productQueryParams.getCategory().name());
 		}
-		
+
 		if (productQueryParams.getSearch() != null) {
 			sqlString = sqlString + " AND product_name LIKE :search";
 
 			map.put("search", "%" + productQueryParams.getSearch() + "%");
 		}
+		
+		// orderBy 只可以用字串拼接出sql語法
+		sqlString = sqlString + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
 
 		List<Product> productList = namedParameterJdbcTemplate.query(sqlString, map, new ProductRowMapper());
 		return productList;
