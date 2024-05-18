@@ -85,7 +85,7 @@ public class ProductDaoImlp implements ProductDao {
 		String sqlString = "INSERT INTO product (product_name, category, "
 				+ "image_url, price, stock, description, created_date, "
 				+ "last_modified_date) VALUES (:productName, :category, "
-				+ ":imageUrl, :price, :stock, :description, :createdDate, " + ":lastModifiedDate);";
+				+ ":imageUrl, :price, :stock, :description, :createdDate, " + ":lastModifiedDate)";
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("productName", productRequest.getProductName());

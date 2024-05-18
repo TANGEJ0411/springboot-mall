@@ -14,12 +14,12 @@ public class ProductRequest {
 
 	@NotBlank
 	private String imageUrl;
-	// 不傳時好像會自己變成0
+	// 不傳時好像會自己變成0，要改成用Integer
 	@NotNull
-	private int price;
+	private Integer price;
 
 	@NotNull
-	private int stock;
+	private Integer stock;
 
 	private String description;
 
