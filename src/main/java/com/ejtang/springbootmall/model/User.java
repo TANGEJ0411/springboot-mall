@@ -2,9 +2,16 @@ package com.ejtang.springbootmall.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class User {
 	private Integer userId;
+	// 可以改變json的欄位名稱
+	@JsonProperty("e_mail")
 	private String email;
+	// 不會讓json檔回傳該field
+	@JsonIgnore
 	private String password;
 	private Date createdDate;
 	private Date lastModifiedDate;

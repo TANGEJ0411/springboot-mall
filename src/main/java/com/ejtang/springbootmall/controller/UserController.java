@@ -22,11 +22,12 @@ public class UserController {
 	@PostMapping("users/register")
 	public ResponseEntity<User> register(@RequestBody @Valid UserRequest userRequest) {
 
-		int userId = userService.register(userRequest);
+		Integer userId = userService.register(userRequest);
 
 		User user = userService.getUserById(userId);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(user);
+
 	}
 
 }
