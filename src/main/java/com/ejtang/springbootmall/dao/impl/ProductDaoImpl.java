@@ -1,4 +1,4 @@
-package com.ejtang.springbootmall.dao.imlp;
+package com.ejtang.springbootmall.dao.impl;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import com.ejtang.springbootmall.model.Product;
 import com.ejtang.springbootmall.rowmapper.ProductRowMapper;
 
 @Component
-public class ProductDaoImlp implements ProductDao {
+public class ProductDaoImpl implements ProductDao {
 
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
