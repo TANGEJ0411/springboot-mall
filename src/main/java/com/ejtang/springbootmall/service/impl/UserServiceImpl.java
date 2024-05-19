@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.ejtang.springbootmall.dao.UserDao;
@@ -11,6 +12,7 @@ import com.ejtang.springbootmall.dto.UserRequest;
 import com.ejtang.springbootmall.model.User;
 import com.ejtang.springbootmall.service.UserService;
 
+// Dao層只可以去和資料庫溝通，但在service可以寫複雜的判斷邏輯
 @Component
 public class UserServiceImpl implements UserService {
 
@@ -28,6 +30,11 @@ public class UserServiceImpl implements UserService {
 			LOG.warn("該email {} 已被註冊", userRequest.getEmail());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
+
+		// hash密碼
+		String hashedPassword = DigestUtils.md5DigestAsHex(userRequest.getPassword().getBytes());
+
+		userRequest.setPassword(hashedPassword);
 
 		// 實際創建user資料
 		return userDao.createUser(userRequest);
@@ -50,6 +57,11 @@ public class UserServiceImpl implements UserService {
 	public User login(UserRequest userRequest) {
 
 		User user = userDao.getUserByEmail(userRequest.getEmail());
+
+		// hash密碼
+		String hashedPassword = DigestUtils.md5DigestAsHex(userRequest.getPassword().getBytes());
+
+		userRequest.setPassword(hashedPassword);
 
 		if (user == null) {
 			LOG.warn("該email {} 未被註冊", userRequest.getEmail());
