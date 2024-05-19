@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 			LOG.warn("該email {} 已被註冊", userRequest.getEmail());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		// 實際創建user資料
 		return userDao.createUser(userRequest);
 
@@ -44,5 +44,22 @@ public class UserServiceImpl implements UserService {
 	public User getUserByEmail(String email) {
 
 		return userDao.getUserByEmail(email);
+	}
+
+	@Override
+	public User login(UserRequest userRequest) {
+
+		User user = userDao.getUserByEmail(userRequest.getEmail());
+
+		if (user == null) {
+			LOG.warn("該email {} 未被註冊", userRequest.getEmail());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
+		if (user.getPassword().equals(userRequest.getPassword())) {
+			return user;
+		} else {
+			LOG.warn("輸入密碼不正確");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
 	}
 }

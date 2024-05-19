@@ -5,9 +5,9 @@ import com.ejtang.springbootmall.model.User;
 
 public interface UserDao {
 
-	Integer createUser(UserRequest user);
-	
+	Integer createUser(UserRequest userRequest);
+
 	User getUserByEmail(String email);
-	
+
 	User getUserById(int userId);
 }

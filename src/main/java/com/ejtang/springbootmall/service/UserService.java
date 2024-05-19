@@ -5,8 +5,10 @@ import com.ejtang.springbootmall.model.User;
 
 public interface UserService {
 	Integer register(UserRequest user);
-	
+
+	User login(UserRequest userRequest);
+
 	User getUserById(int userId);
-	
+
 	User getUserByEmail(String email);
 }
