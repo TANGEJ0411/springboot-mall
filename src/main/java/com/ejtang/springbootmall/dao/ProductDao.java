@@ -10,8 +10,8 @@ import com.ejtang.springbootmall.model.Product;
 
 public interface ProductDao {
 	List<Product> getProducts(ProductQueryParams productQueryParams);
-	
-	int countProduct (ProductQueryParams productQueryParams);
+
+	int countProduct(ProductQueryParams productQueryParams);
 
 	Product getProductById(int productId);
 
@@ -20,4 +20,6 @@ public interface ProductDao {
 	void updateProduct(int productId, ProductRequest productRequest);
 
 	void deleteProduct(int productId);
+
+	void updateProductStock(int productId, int quantity);
 }
