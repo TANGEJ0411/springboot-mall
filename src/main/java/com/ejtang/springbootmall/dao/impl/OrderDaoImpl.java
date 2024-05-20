@@ -13,6 +13,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 import com.ejtang.springbootmall.dao.OrderDao;
+import com.ejtang.springbootmall.dto.OrderQueryParams;
 import com.ejtang.springbootmall.model.Order;
 import com.ejtang.springbootmall.model.OrderItem;
 import com.ejtang.springbootmall.rowmapper.OrderItemRowMapper;
@@ -105,6 +106,48 @@ public class OrderDaoImpl implements OrderDao {
 		List<OrderItem> orderItemList = namedParameterJdbcTemplate.query(sqlString, map, new OrderItemRowMapper());
 
 		return orderItemList;
+	}
+
+	@Override
+	public List<Order> getOrders(OrderQueryParams orderQueryParams) {
+		String sqlString = "SELECT order_id, user_id, total_amount ,created_date, last_modified_date " + "From `order` WHERE 1=1";
+
+		Map<String, Object> map = new HashMap<>();
+
+		sqlString = addFilteringSql(sqlString, map, orderQueryParams);
+
+		// 排序
+		sqlString = sqlString + " ORDER BY created_date DESC";
+
+		// 分頁
+		sqlString = sqlString + " LIMIT :limit OFFSET :offset";
+		map.put("limit", orderQueryParams.getLimit());
+		map.put("offset", orderQueryParams.getOffset());
+
+		List<Order> orderList = namedParameterJdbcTemplate.query(sqlString, map, new OrderRowMapper());
+
+		return orderList;
+	}
+
+	@Override
+	public Integer countOrder(OrderQueryParams orderQueryParams) {
+		String sqlString = "SELECT count(*) FROM `order` WHERE 1=1";
+
+		Map<String, Object> map = new HashMap<>();
+
+		sqlString = addFilteringSql(sqlString, map, orderQueryParams);
+
+		Integer total = namedParameterJdbcTemplate.queryForObject(sqlString, map, Integer.class);
+
+		return total;
+	}
+
+	private String addFilteringSql(String sqlString, Map<String, Object> map, OrderQueryParams orderQueryParams) {
+		if (orderQueryParams.getUserId() != null) {
+			sqlString = sqlString + " AND user_id=:userId";
+			map.put("userId", orderQueryParams.getUserId());
+		}
+		return sqlString;
 	}
 
 }

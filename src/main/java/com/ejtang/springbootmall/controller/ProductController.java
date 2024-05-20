@@ -36,7 +36,8 @@ public class ProductController {
 	@GetMapping("/products")
 	public ResponseEntity<Page<Product>> getProducts(
 			// 查詢條件 filtering
-			@RequestParam(required = false) ProductCategory category, @RequestParam(required = false) String search,
+			@RequestParam(required = false) ProductCategory category, 
+			@RequestParam(required = false) String search,
 
 			// 排序 sorting
 			@RequestParam(defaultValue = "created_date") String orderBy,
@@ -63,7 +64,7 @@ public class ProductController {
 
 		// 取得productList
 		List<Product> productList = productService.getProducts(productQueryParams);
-		
+
 		// 取得product的總筆數
 		int total = productService.countProduct(productQueryParams);
 
