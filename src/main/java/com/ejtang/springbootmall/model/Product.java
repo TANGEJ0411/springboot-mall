@@ -1,6 +1,6 @@
 package com.ejtang.springbootmall.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import com.ejtang.springbootmall.constant.ProductCategory;
 

@@ -60,8 +60,6 @@ public class OrderDaoImpl implements OrderDao {
 		for (int i = 0; i < orderItemList.size(); i++) {
 			OrderItem orderItem = orderItemList.get(i);
 
-//			System.out.println(orderItem.getAmount());
-
 			parameterSources[i] = new MapSqlParameterSource();
 			parameterSources[i].addValue("orderId", orderId);
 			parameterSources[i].addValue("productId", orderItem.getProductId());
