@@ -25,12 +25,15 @@ public class OrderDaoImpl implements OrderDao {
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+	// 建立訂單
 	@Override
 	public Integer createOrder(Integer userId, Integer totalAmount) {
-
+		
+		// sql語法:後面視為變數
 		String sqlString = "INSERT INTO `order`(user_id, total_amount, created_date, "
 				+ "last_modified_date) VALUES (:userId, :totalAmount, :createdDate, " + ":lastModifiedDate)";
-
+		
+		// 要傳入變數的Map
 		Map<String, Object> map = new HashMap<>();
 
 		map.put("userId", userId);
@@ -40,6 +43,7 @@ public class OrderDaoImpl implements OrderDao {
 		map.put("createdDate", now);
 		map.put("lastModifiedDate", now);
 
+		// 因為是自動生成pramiry key，所以要透過這種方式拿id
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		namedParameterJdbcTemplate.update(sqlString, new MapSqlParameterSource(map), keyHolder);
@@ -48,7 +52,8 @@ public class OrderDaoImpl implements OrderDao {
 
 		return orderId;
 	}
-
+	
+	// 建立訂單詳細，同一筆訂單可能會有多筆訂單詳細
 	@Override
 	public void createOrderItems(Integer orderId, List<OrderItem> orderItemList) {
 		// batchUpdate
@@ -59,7 +64,8 @@ public class OrderDaoImpl implements OrderDao {
 
 		for (int i = 0; i < orderItemList.size(); i++) {
 			OrderItem orderItem = orderItemList.get(i);
-
+			
+			// 這邊類似RowMapper的意思，是同樣作用
 			parameterSources[i] = new MapSqlParameterSource();
 			parameterSources[i].addValue("orderId", orderId);
 			parameterSources[i].addValue("productId", orderItem.getProductId());
